@@ -14,16 +14,20 @@ class View(ft.UserControl):
         # graphical elements
         self._title = None
         self.txt_name = None
-        self.btn_hello = None
-        self.txt_result = None
+        self.btn_cercaIscritti = None
+        self._txt_matricola = None
         self.txt_container = None
+        self._menuCorsi = None
+        self._txt_nome = None
+        self._txt_cognome = None
 
     def load_interface(self):
         """Function that loads the graphical elements of the view"""
         # title
-        self._title = ft.Text("Hello World", color="blue", size=24)
+        self._title = ft.Text("App Gestione Studenti", color="blue", size=24)
         self._page.controls.append(self._title)
-
+        self._menuCorsi = ft.Dropdown(label="Selezionare un corso", options=[])
+        self._controller.fill()
         #ROW with some controls
         # text field for the name
         self.txt_name = ft.TextField(
@@ -31,12 +35,16 @@ class View(ft.UserControl):
             width=200,
             hint_text="Insert a your name"
         )
-
         # button for the "hello" reply
-        self.btn_hello = ft.ElevatedButton(text="Hello", on_click=self._controller.handle_hello)
-        row1 = ft.Row([self.txt_name, self.btn_hello],
+        self.btn_cercaIscritti = ft.ElevatedButton(text="Cerca iscritti", on_click=self._controller.handle_cercaIscritti, width=150)
+        row1 = ft.Row([self._menuCorsi, self.btn_cercaIscritti],
                       alignment=ft.MainAxisAlignment.CENTER)
-        self._page.controls.append(row1)
+        self.txt_container = ft.Container(width=300)
+        self._txt_matricola = ft.TextField(label="matricola", width=150)
+        self._txt_nome = ft.TextField(label="nome", width=150)
+        self._txt_cognome = ft.TextField(label="cognome", width=150)
+        row2 = ft.Row([self._txt_matricola, self._txt_nome, self._txt_cognome], alignment=ft.MainAxisAlignment.CENTER)
+        self._page.add(row1, row2)
 
         # List View where the reply is printed
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
